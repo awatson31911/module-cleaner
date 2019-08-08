@@ -5,13 +5,12 @@
 // const ignoreCurrent = argv.c; //boolean
 // const ignoreDirs = argv.d; //array of strings 
 // const rootDir = argv.r; //string
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
-const root = path.parse(process.cwd()).root;
+const root = path.parse(process.cwd()).dir;
 
 
-// module.exports.
-const app = (dir, done) => {
+const app = {
   // Checks for valid argument types
   // checkArgs = (ignoreDirs, rootDir) => {
   //   if (typeof ignoreDirs !== 'array') {
@@ -23,11 +22,10 @@ const app = (dir, done) => {
   //   }
   // }
 
-  findPrintDelete = () => {
+  findPrintDelete(dir, done) {
     let deletedDirPaths = [];
 
     fs.readdir(dir, (err, list) => {
-      //console.log(list)
       if (err) { return done(err); }
 
       let pending = list.length;
@@ -47,16 +45,19 @@ const app = (dir, done) => {
             if (fileOrFolder === 'node_modules') {  // If node_modules dir, remove dir
               deletedDirPaths = [...deletedDirPaths, fileOrFolderPath];
 
-              fs.rmdir(fileOrFolderPath, (err) => { console.error(err); });
+              fs.remove(fileOrFolderPath, err => {
+                if (err) return console.error(err);
 
-              pending--;
-              if (!pending) {
-                done(null, deletedDirPaths);
-              }
+                pending--;
+                if (!pending) {
+                  done(null, deletedDirPaths);
+                }
+              });
+
 
             } else if (isNotHidden) { // If dir is not hidden, execute a recursive call
 
-              app(fileOrFolderPath, (err, res) => {
+              this.findPrintDelete(fileOrFolderPath, (err, res) => {
                 if (err) {
                   throw new Error(err);
                 } else if (res.length) {
@@ -81,14 +82,18 @@ const app = (dir, done) => {
 
 
     });
-  };
+  }
 };
 
-app.findPrintDelete(root, (err, data) => {
+app.findPrintDelete('/Users/Adubya/Desktop/CODE/Fullstack/Projects', (err, data) => {
   if (err) { throw err; }
 
-  console.log(`Root Directory: ${root}
-  directories removed: ${data}`);
+  console.log(`
+  root directory: ${root}
+  directories removed:
+    ${data.join('\n')}
+  `);
 });
+
 
 module.exports = app;
