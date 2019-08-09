@@ -1,31 +1,27 @@
 #!/usr/bin/env node
-// const argv = require('yargs').argv;
-// console.log(argv);
-// const argv = parseArgs(['r', 'd', 'c'], { booleans: 'c', string: 'r', '--': true });
-// const ignoreCurrent = argv.c; //boolean
-// const ignoreDirs = argv.d; //array of strings 
-// const rootDir = argv.r; //string
+const argv = require('yargs').argv;
 const fs = require('fs-extra');
 const path = require('path');
-const root = path.parse(process.cwd()).dir;
 
+
+const root = argv.r; // User input option - root directory to begin traversal from
+const includeCurrentDirInput = argv.c; // User input option - boolean to include current dir when deleting node_modules
+const currentDir = path.parse(process.cwd()).base;
+const ignoreDirsInput = argv._; // User input option - directories to ignore
+let dirsToIgnore = [currentDir, 'module-cleaner', 'usr', 'Windows', 'System Volume Information', 'Applications', 'Application Support', 'AppData', 'Application Data', 'Cookies', 'Program Files', 'Program Files(x86)', 'Local Settings', 'Documents and Settings', 'Windows', ...ignoreDirsInput];
+
+if (includeCurrentDirInput) dirsToIgnore = dirsToIgnore.filter( (dir) => dir !== currentDir);
 
 const app = {
-  // Checks for valid argument types
-  // checkArgs = (ignoreDirs, rootDir) => {
-  //   if (typeof ignoreDirs !== 'array') {
+ 
+  findPrintDelete(root, directoriesToIgnore, done) {
+    if (root === undefined) {
+      throw new Error('Please provide a main directory to find node_modules in');  
+    }
 
-  //   }
-
-  //   if (typeof ignoreDirs !== 'array') {
-
-  //   }
-  // }
-
-  findPrintDelete(dir, done) {
     let deletedDirPaths = [];
 
-    fs.readdir(dir, (err, list) => {
+    fs.readdir(root, (err, list) => {
       if (err) { return done(err); }
 
       let pending = list.length;
@@ -35,7 +31,7 @@ const app = {
       for (let i = 0; i < list.length; i++) {
 
         const fileOrFolder = list[i];
-        const fileOrFolderPath = path.resolve(dir, fileOrFolder);
+        const fileOrFolderPath = path.resolve(root, fileOrFolder);
 
         fs.stat(fileOrFolderPath, (err, stat) => {
 
@@ -43,11 +39,11 @@ const app = {
             const isNotHidden = fileOrFolder[0] != '.';
 
             if (fileOrFolder === 'node_modules') {  // If node_modules dir, remove dir
-              deletedDirPaths = [...deletedDirPaths, fileOrFolderPath];
-
+              
               fs.remove(fileOrFolderPath, err => {
-                if (err) return console.error(err);
-
+                if (err) return done(err);
+                
+                deletedDirPaths = [...deletedDirPaths, fileOrFolderPath];
                 pending--;
                 if (!pending) {
                   done(null, deletedDirPaths);
@@ -55,12 +51,13 @@ const app = {
               });
 
 
-            } else if (isNotHidden) { // If dir is not hidden, execute a recursive call
+            } else if (isNotHidden && !directoriesToIgnore.includes(fileOrFolder)) { // If dir is not hidden, execute a recursive call
 
-              this.findPrintDelete(fileOrFolderPath, (err, res) => {
-                if (err) {
+              this.findPrintDelete(fileOrFolderPath, directoriesToIgnore, (err, res) => {
+                if (err && !['EACCES', 'EPERM'].includes(err.code)) {
                   throw new Error(err);
-                } else if (res.length) {
+                }
+                else if (res) {
                   deletedDirPaths = deletedDirPaths.concat(res);
                 }
                 pending--;
@@ -85,7 +82,7 @@ const app = {
   }
 };
 
-app.findPrintDelete('/Users/Adubya/Desktop/CODE/Fullstack/Projects', (err, data) => {
+app.findPrintDelete(root, dirsToIgnore, (err, data) => {
   if (err) { throw err; }
 
   console.log(`
