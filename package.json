@@ -1,7 +1,8 @@
 {
-  "name": "cleaner",
+  "name": "module-cleaner",
   "version": "1.0.0",
   "description": "A CLI application to delete currently unused node modules",
+  "main": "index.js",
   "bin": {
     "cleanmodules": "moduleCleaner.js"
   },
@@ -19,7 +20,6 @@
   },
   "homepage": "https://github.com/awatson31911/node-cleaner#readme",
   "dependencies": {
-    "@babel/preset-env": "^7.5.5",
     "fs-extra": "^8.1.0",
     "nodemon": "^1.19.1",
     "yargs": "^13.3.0"

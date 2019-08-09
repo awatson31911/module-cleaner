@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 const argv = require('yargs').argv;
 const fs = require('fs-extra');
 const path = require('path');
@@ -6,9 +7,9 @@ const path = require('path');
 
 const root = argv.r; // User input option - root directory to begin traversal from
 const includeCurrentDirInput = argv.c; // User input option - boolean to include current dir when deleting node_modules
-const currentDir = path.parse(process.cwd()).base;
+const currentDir = path.parse(process.cwd()).name;
 const ignoreDirsInput = argv._; // User input option - directories to ignore
-let dirsToIgnore = [currentDir, 'module-cleaner', 'usr', 'Windows', 'System Volume Information', 'Applications', 'Application Support', 'AppData', 'Application Data', 'Cookies', 'Program Files', 'Program Files(x86)', 'Local Settings', 'Documents and Settings', 'Windows', ...ignoreDirsInput];
+let dirsToIgnore = [currentDir, 'module-cleaner', 'usr', 'Windows', 'System', 'System Volume Information', 'Applications', 'Application Support', 'AppData', 'Application Data', 'Cookies', 'Program Files', 'Program Files(x86)', 'Local Settings', 'Documents and Settings', ...ignoreDirsInput];
 
 if (includeCurrentDirInput) dirsToIgnore = dirsToIgnore.filter( (dir) => dir !== currentDir);
 
@@ -17,6 +18,12 @@ const app = {
   findPrintDelete(root, directoriesToIgnore, done) {
     if (root === undefined) {
       throw new Error('Please provide a main directory to find node_modules in');  
+    }
+    if (root === '/') {
+      throw new Error('Please provide a folder lower in your file directory');  
+    }
+    if (root === 'C:\\') {
+      throw new Error('Please provide a folder lower in your file directory');  
     }
 
     let deletedDirPaths = [];
