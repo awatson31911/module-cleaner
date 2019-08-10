@@ -85,7 +85,7 @@ npm install
 ```
 4) 
 ```node
-cleanmodules -r SOME-PROJECT-DIRECTORY
+node moduleCleaner.js -r SOME-PROJECT-DIRECTORY
 ```
 
 All feedback is welcome and appreciated. Thanks!
