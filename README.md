@@ -9,12 +9,12 @@ npm install -g module-cleaner
 ## Usage
 Takes a projects directory and looks for any node_module folders contained inside of it. Once found, the folder and all contents are deleted using the fs-extra package's remove() method. Optionally, can flag project directories to ignore.
 
-Default ignored folders:
-  Any hidden files i.e. ".gitignore" ".nvm"
-  macOS - usr, System, System Volume Information, Applications, Application Support
-  Windows - Windows,  AppData, Application Data, Cookies, Program Files, Program Files(x86), Local Settings, Documents and Settings
+#### Default ignored folders:
+   - Any hidden files i.e. ".gitignore" ".nvm"
+   - macOS - usr, System, System Volume Information, Applications, Application Support
+   - Windows - Windows,  AppData, Application Data, Cookies, Program Files, Program Files(x86), 		Local Settings, Documents and Settings
 
-Install Globally to avoid deleting this package with other node_modules.
+*** Install Globally to avoid deleting this package with other node_modules ***
 
 #### Example
 Directory structure:
@@ -56,18 +56,19 @@ Projects/
     package-lock.json
     node_modules
 
-
 ### Flags
--r - A string of the directory to start traversing from 
--c - Include current directory in directory to delete. Current directory's node_modules get bypassed by default
--- Array of strings of the directories not to delete
+- -r - A string of the directory to start traversing from 
+- -c - Include current directory in directory to delete. Current directory's node_modules get bypassed by default
+- -- Array of strings of the directories not to delete
 
-** Note !: -- must be placed after any other option flags **
+*** Note: -- must be placed after any other option flags ***
+
 
 ## Technologies/Services/Packages Used
 - Node.js
 - fs-extra
 - yargs
+
 
 ## Run Locally
 1) Clone this repo
@@ -84,9 +85,7 @@ npm install
 ```
 4) 
 ```node
-cleanmodules -r SOMEPROJECTDIRECTORY
+cleanmodules -r SOME-PROJECT-DIRECTORY
 ```
 
 All feedback is welcome and appreciated. Thanks!
-
-Author: @a_watson_codes Date: 9 Aug 2019
