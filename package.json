@@ -1,6 +1,6 @@
 {
   "name": "module-cleaner",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A CLI application to delete currently unused node modules",
   "main": "index.js",
   "bin": {
