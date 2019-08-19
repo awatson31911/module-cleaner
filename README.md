@@ -18,22 +18,22 @@ Takes a projects directory and looks for any node_module folders contained insid
 
 #### Example
 Directory structure:
-Projects/
-  Project-1/
-    index.js
-    package.json
-    package-lock.json
-    node_modules
-  Project-2/
-    index.js
-    package.json
-    package-lock.json
-    node_modules
-  Project-3/
-    index.js
-    package.json
-    package-lock.json
-    node_modules
+ *  Projects/
+    * Project-1/
+      * index.js
+      * package.json
+      * package-lock.json
+      * node_modules
+    * Project-2/
+      * index.js
+      * package.json
+      * package-lock.json
+      * node_modules
+    * Project-3/
+      * index.js
+      * package.json
+      * package-lock.json
+      * node_modules
 
 ```node
 npm install -g module-cleaner
@@ -41,20 +41,21 @@ cleanmodules -r ~/Desktop/Projects -- Project-3
 ```
 
 Directory structure:
-Projects/
-  Project-1/
-    index.js
-    package.json
-    package-lock.json
-  Project-2/
-    index.js
-    package.json
-    package-lock.json
-  Project-3/
-    index.js
-    package.json
-    package-lock.json
-    node_modules
+.
+ *  Projects/
+    * Project-1/
+      * index.js
+      * package.json
+      * package-lock.json
+    * Project-2/
+      * index.js
+      * package.json
+      * package-lock.json
+    * Project-3/
+      * index.js
+      * package.json
+      * package-lock.json
+      * node_modules
 
 ### Flags
 - -r - A string of the directory to start traversing from 
