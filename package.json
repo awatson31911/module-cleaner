@@ -7,7 +7,7 @@
     "cleanmodules": "moduleCleaner.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -20,11 +20,15 @@
   },
   "homepage": "https://github.com/awatson31911/node-cleaner#readme",
   "dependencies": {
+    "exit": "^0.1.2",
     "fs-extra": "^8.1.0",
     "nodemon": "^1.19.1",
+    "readline-sync": "^1.4.10",
     "yargs": "^13.3.0"
   },
   "devDependencies": {
-    "eslint": "^6.0.1"
+    "eslint": "^6.0.1",
+    "jest": "^24.9.0",
+    "mock-fs": "^4.10.1"
   }
 }
