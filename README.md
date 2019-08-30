@@ -68,12 +68,12 @@ Directory structure:
 
 
 ## Technologies/Services/Packages Used
-- Node.js
 - fs-extra
+- jest
 - mock-fs
+- node.js
+- readline-sync
 - yargs
-- Jest
-
 
 
 ## Run Locally
