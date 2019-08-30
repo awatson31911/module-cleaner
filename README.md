@@ -59,9 +59,8 @@ Directory structure:
 
 ### Flags
 - -c - Include current directory in directories to delete. Current directory's node_modules get bypassed by default
-- -d - A string of the directory to start traversing from 
+- -r - A string of the directory to start traversing from 
 - -f - Bypass default behavior of getting permission before each deletion
-- -r - Start traversing from the root directory
 - -- Array of strings of the directories not to delete
 
 *** Note: -- must be placed after any other option flags ***

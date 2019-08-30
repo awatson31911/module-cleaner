@@ -106,15 +106,15 @@ const app = {
   }
 };
 
-// app.findPrintDelete(root, dirsToIgnore, bypassChecks, (err, data) => {
-//   if (err) { throw err; }
+app.findPrintDelete(root, dirsToIgnore, bypassChecks, (err, data) => {
+  if (err) { throw err; }
 
-//   console.log(`
-//   root directory: ${root}
-//   directories removed:
-//     ${data.join('\n')}
-//   `);
-// });
+  console.log(`
+  root directory: ${root}
+  directories removed:
+    ${data.join('\n')}
+  `);
+});
 
 app.findPrintDelete.bind(app);
 
